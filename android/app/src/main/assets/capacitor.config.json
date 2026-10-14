@@ -1,0 +1,8 @@
+{
+	"appId": "com.israq.gremlinvocab",
+	"appName": "Gremlin Vocab",
+	"webDir": "www",
+	"android": {
+		"backgroundColor": "#F3F5FA"
+	}
+}
