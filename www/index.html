@@ -243,7 +243,7 @@ function render(){
 function home(){
   const sc=scope(), c=counts(sc), all=counts(V);
   const scopeName = ui.list ? "List "+ui.list : "All 15 lists";
-  const newToday = Math.min(NEW_PER_SESSION, c.n);
+  const flashSub = ui.list ? `${c.due} due · ${c.n} new · ${c.m} mastered` : `${c.due} due · ${c.n} new (${NEW_PER_SESSION} per session) · ${c.m} mastered`;
   let tiles = `<button class="lt" data-list="0" aria-pressed="${ui.list===0}"><span class="t">All lists</span><span class="c num">${all.m}/${all.total} mastered</span><span class="bar"><i class="m" style="width:${all.m/all.total*100}%"></i><i class="l" style="width:${all.l/all.total*100}%"></i></span></button>`;
   for(const L of LISTS){
     const w=V.filter(o=>o.l===L), k=counts(w);
@@ -263,7 +263,7 @@ function home(){
   <section style="display:flex;flex-direction:column;gap:10px">
     <p class="label">${esc(scopeName)} · ${c.total} words</p>
     <div class="modes">
-      <button class="mode primary" data-a="flash"><span class="ic">◧</span><span class="tx"><strong>Flashcards</strong><small>${c.due} due · ${newToday} new · spaced repetition</small></span></button>
+      <button class="mode primary" data-a="flash"><span class="ic">◧</span><span class="tx"><strong>Flashcards</strong><small>${flashSub}</small></span></button>
       <button class="mode" data-a="recall"><span class="ic">✎</span><span class="tx"><strong>Recall the synonyms</strong><small>Type every pair word you remember, see what you missed</small></span></button>
       <button class="mode" data-a="quiz"><span class="ic">?</span><span class="tx"><strong>Synonym checkpoint</strong><small>20 multiple-choice questions, like the book's tests</small></span></button>
       <button class="mode" data-a="browse"><span class="ic">≡</span><span class="tx"><strong>Word list</strong><small>Search every word, definition and synonym</small></span></button>
@@ -284,7 +284,7 @@ function home(){
 function startFlash(){
   const now=Date.now(), sc=scope();
   const due = shuffle(sc.filter(o=>P[o.id] && P[o.id].due<=now)).sort((a,b)=>P[a.id].b-P[b.id].b);
-  const fresh = sc.filter(o=>!P[o.id]).slice(0,NEW_PER_SESSION);
+  const fresh = sc.filter(o=>!P[o.id]).slice(0, ui.list ? sc.length : NEW_PER_SESSION);
   const q = due.concat(fresh).map(o=>o.id);
   return {q, i:0, shown:false, done:0, total:q.length};
 }

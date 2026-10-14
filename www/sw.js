@@ -1,5 +1,5 @@
 // Offline cache for Gremlin Vocab Trainer. Bump VERSION when files change.
-const VERSION = "gremlin-vocab-v1";
+const VERSION = "gremlin-vocab-v2";
 const FILES = [
   "./",
   "index.html",
